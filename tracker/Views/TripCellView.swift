@@ -1,5 +1,5 @@
 //
-//  BookCellView.swift
+//  TripCellView.swift
 //  tracker
 //
 //  Created by Daniel Paymar on 6/18/24.
@@ -16,8 +16,9 @@ struct TripCellView: View {
                 Text(trip.title)
                     .font(.headline)
                 HStack {
-                    Text("Destination: \(trip.location)")
+                    Text(trip.destination)
                     Spacer()
+                    
 //                    Text("Date: \(trip.tripDate.description)")
                 }
                 .font(.subheadline)
@@ -30,5 +31,5 @@ struct TripCellView: View {
 }
 
 //#Preview {
-//    BookCellView()
+//    TripCellView()
 //}

@@ -4,52 +4,50 @@
 //
 //  Created by Daniel Paymar on 6/18/24.
 //
-
+import SDWebImageSwiftUI
 import SwiftUI
 import SwiftData
 
 struct AddNewTrip: View {
+   
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     
+    //    @State var forecastListVM = ForecastListViewModel()
+    
     @State private var title: String = ""
-    @State private var location: String = ""
-//    @State private var tripDate: Date
+    @State private var destination: String = ""
+    //    @State private var tripDate: Date
     
     // computed property to enusre all fields are entered before enabling save
     private var isValid: Bool {
-        !title.isEmpty && !location.isEmpty
+        !title.isEmpty && !destination.isEmpty
     }
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
-                Form {
-                    TextField("Trip type", text: $title)
-                    TextField("Your destination", text: $location)
-//                    DatePicker(
-//                        "Date", selection: $tripDate,
-//                        displayedComponents: .date
-//                    )
+            Form {
+                TextField("Trip type", text: $title)
+                HStack {
+                    TextField("Your destination", text: $destination)
+                    Image(systemName: "magnifyingglass.circle.fill")
+                        .foregroundColor(.blue)
                 }
-                Spacer()
+                // DatePicker("Date", selection: $tripDate, displayedComponents: .date)
             }
             .navigationBarTitle("Add a trip")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", role: .destructive) {
                         dismiss()
                     }
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-//                        guard let tripDate else { return }
                         let trip = Trip(
                             title: title,
-                            location: location
-//                            tripDate: tripDate
+                            destination: destination
+                            // tripDate: tripDate
                         )
                         
                         context.insert(trip)
@@ -65,10 +63,8 @@ struct AddNewTrip: View {
                 }
             }
         }
-        
     }
 }
-
 #Preview {
     AddNewTrip()
 }

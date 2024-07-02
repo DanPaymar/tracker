@@ -1,5 +1,5 @@
 //
-//  BookListView.swift
+//  TripListView.swift
 //  tracker
 //
 //  Created by Daniel Paymar on 6/18/24.
@@ -46,11 +46,6 @@ struct TripListView: View {
                     } description: {
                         Text("press the '+' to add some fun")
                     }
-//                    ContentUnavailableView(
-//                        "It looks like you aren't going anywhere",
-//                        systemImage: "figure.hiking",
-//                        description: Text("press the '+' to add your adventures")
-//                    )
                 }
             }
         }

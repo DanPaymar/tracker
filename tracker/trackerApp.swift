@@ -11,6 +11,7 @@ import SwiftData
 @main
 struct trackerApp: App {
     var body: some Scene {
+        
         WindowGroup {
             ContentView()
                 .modelContainer(for: [Trip.self])

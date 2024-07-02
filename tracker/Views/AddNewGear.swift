@@ -18,7 +18,6 @@ struct AddNewGear: View {
     @Environment(\.dismiss) private var dismiss
     
     
-    
     var body: some View {
         Form {
             TextField("Add some gear", text: $title)

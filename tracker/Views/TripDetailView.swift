@@ -1,10 +1,10 @@
 //
-//  BookDetailView.swift
+//  TripDetailView.swift
 //  tracker
 //
 //  Created by Daniel Paymar on 6/18/24.
 //
-
+import SDWebImageSwiftUI
 import SwiftUI
 import SwiftData
 
@@ -14,10 +14,12 @@ struct TripDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     
+    @StateObject var forecastListVM = ForecastListViewModel()
+
     @State private var isEditing = false
     
     @State private var title: String = ""
-    @State private var location: String = ""
+    @State private var destination: String = ""
     //    @State private var tripDate: Date
     
     @State private var showAddNewNote = false
@@ -26,7 +28,8 @@ struct TripDetailView: View {
     init(trip: Trip) {
         self.trip = trip
         self._title = State(initialValue: trip.title)
-        self._location = State(initialValue: trip.location)
+        self._destination = State(initialValue: trip.destination)
+        
         //        self._tripDate = State(initialValue: trip.tripDate)
     }
     
@@ -35,14 +38,15 @@ struct TripDetailView: View {
             if isEditing {
                 Group {
                     TextField("Title", text: $title)
-                    TextField("Destination", text: $location)
+                    TextField("Destination", text: $destination)
                     //                    DatePicker(selection: /*@START_MENU_TOKEN@*/.constant(Date())/*@END_MENU_TOKEN@*/, label: { /*@START_MENU_TOKEN@*/Text("Date")/*@END_MENU_TOKEN@*/ })
+                    
                 }
                 
                 Button("Save") {
                     //                    guard let
                     trip.title = title
-                    trip.location = location
+                    trip.destination = destination
                     
                     do {
                         try context.save()
@@ -55,8 +59,68 @@ struct TripDetailView: View {
                 .buttonStyle(.borderedProminent)
             } else {
                 Text(trip.title)
-                Text(trip.location)
+                Text(trip.destination)
                 //                Text(trip.tripDate.description)
+            }
+            
+            Section("\(destination) forecast") {
+                Button {
+                    forecastListVM.getWeatherForecast()
+                } label: {
+                    HStack {
+                        TextField("Your destination", text: $forecastListVM.location)
+                        Image(systemName: "magnifyingglass.circle.fill")
+                    }
+                }
+                
+                if forecastListVM.forecasts.isEmpty {
+                    VStack {
+                        ContentUnavailableView(
+                            "Add a destination to get the weather",
+                            systemImage: "sun.max.trianglebadge.exclamationmark",
+                            description: Text("Add a destination to get the weather")
+                        )
+                    }
+                } else {
+                    ScrollView(.horizontal) {
+                        ScrollViewReader { scrollView in
+                            LazyHStack(spacing: 20) {
+                                ForEach(forecastListVM.forecasts, id: \.day) { day in
+                                    VStack(alignment: .leading) {
+                                        Text(day.day)
+                                            .fontWeight(.bold)
+                                        HStack(alignment: .center) {
+                                            WebImage(url: day.weatherIconURL)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 75, height: 75)
+                                            
+                                            VStack(alignment: .leading) {
+                                                Text(day.overview)
+                                                    .font(.headline)
+                                                HStack {
+                                                    Text(day.high)
+                                                    Text(day.low)
+                                                }
+                                                HStack {
+                                                    Text(day.clouds)
+                                                    Text(day.pop)
+                                                }
+                                                Text(day.humidity)
+                                            }
+                                        }
+                                    }
+                                    .id(day.day)
+                                    .frame(width: 200)
+                                }
+                            }
+                            .onAppear {
+                                scrollView.scrollTo(forecastListVM.forecasts.first?.day, anchor: .center)
+                            }
+                        }
+                    }
+                    .frame(height: 200)
+                }
             }
             
             Section("Gear") {
@@ -106,7 +170,11 @@ struct TripDetailView: View {
                 }
                 
                 if trip.notes.isEmpty {
-                    ContentUnavailableView("No notes", systemImage: "pencil.and.list.clipboard")
+                    ContentUnavailableView(
+                        "Just winging it?",
+                        systemImage: "pencil.and.list.clipboard",
+                        description: Text("add a plan")
+                    )
                 } else {
                     NotesListView(trip: trip)
                 }
@@ -114,14 +182,16 @@ struct TripDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(isEditing ? "Done" : "Edit") {
+                Button(isEditing ? "Cancel" : "Edit") {
                     isEditing.toggle()
                 }
             }
         }
         .navigationTitle("Trip Detail")
     }
+
 }
+
 
 //#Preview {
 //    BookDetailView()
