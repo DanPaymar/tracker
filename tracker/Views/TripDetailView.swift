@@ -15,7 +15,7 @@ struct TripDetailView: View {
     @Environment(\.dismiss) private var dismiss
     
     @StateObject var forecastListVM = ForecastListViewModel()
-
+    
     @State private var isEditing = false
     
     @State private var title: String = ""
@@ -86,29 +86,25 @@ struct TripDetailView: View {
                         ScrollViewReader { scrollView in
                             LazyHStack(spacing: 20) {
                                 ForEach(forecastListVM.forecasts, id: \.day) { day in
-                                    VStack(alignment: .leading) {
+                                    VStack(alignment: .center) {
                                         Text(day.day)
                                             .fontWeight(.bold)
-                                        HStack(alignment: .center) {
-                                            WebImage(url: day.weatherIconURL)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 75, height: 75)
-                                            
-                                            VStack(alignment: .leading) {
-                                                Text(day.overview)
-                                                    .font(.headline)
-                                                HStack {
-                                                    Text(day.high)
-                                                    Text(day.low)
-                                                }
-                                                HStack {
-                                                    Text(day.clouds)
-                                                    Text(day.pop)
-                                                }
-                                                Text(day.humidity)
-                                            }
+                                        HStack {
+                                            Text(day.high)
+                                            Text(day.low)
                                         }
+                                        Text(day.overview)
+                                            .font(.caption)
+                                        WebImage(url: day.weatherIconURL)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 75, height: 75)
+                                        HStack {
+                                            Text(day.clouds)
+                                            Text(day.pop)
+                                        }
+                                        Text(day.humidity)
+                                        
                                     }
                                     .id(day.day)
                                     .frame(width: 200)
@@ -150,7 +146,7 @@ struct TripDetailView: View {
                     GearListView(trip: trip)
                 }
             }
-
+            
             Section("Trip plan") {
                 Button(action: {
                     showAddNewNote.toggle()
@@ -189,7 +185,7 @@ struct TripDetailView: View {
         }
         .navigationTitle("Trip Detail")
     }
-
+    
 }
 
 

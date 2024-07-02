@@ -12,7 +12,7 @@ import SwiftData
 
 
 struct Forecast: Codable {
-        
+    
     struct Daily: Codable {
         let dt: Date
         
