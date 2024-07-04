@@ -23,8 +23,8 @@ final class Trip {
     @Relationship(deleteRule: .cascade, inverse:  \Gear.trip)
     var gears = [Gear]()
     
-    @Relationship(deleteRule: .cascade, inverse: \Forecast.trip)
-    var forecasts = [Forecast]()
+//    @Relationship(deleteRule: .cascade, inverse: \Forecast.trip)
+//    var forecasts = [Forecast]()
     
     init(title: String, destination: String) {
         self.title = title

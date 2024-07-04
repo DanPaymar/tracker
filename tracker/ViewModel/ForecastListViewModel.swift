@@ -12,7 +12,6 @@ import SwiftData
 
 
 class ForecastListViewModel: ObservableObject {
-    var trip: Trip?
     
     struct AppError: Identifiable {
         let id = UUID().uuidString
@@ -59,7 +58,7 @@ class ForecastListViewModel: ObservableObject {
                         self.appError = AppError(
                             errorString: NSLocalizedString("No network connection. Please check you are connected to a network and try again.", comment: "")
                         )
-           default:
+                    default:
                         self.appError = AppError(
                             errorString: error.localizedDescription
                         )
@@ -70,7 +69,7 @@ class ForecastListViewModel: ObservableObject {
                 }
                 if let lat = placemarks?.first?.location?.coordinate.latitude,
                    let lon = placemarks?.first?.location?.coordinate.longitude {
-                   
+                    
                     apiService.getJSON(urlString: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&exclude=current,minutely,hourly,alerts&appid=3989ab9921804406367d1e47d782024a",
                                        dateDecodingStrategy: .secondsSince1970) { (result: Result<Forecast,APIService.APIError>) in
                         
