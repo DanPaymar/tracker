@@ -107,7 +107,7 @@ struct TripDetailView: View {
                                         
                                     }
                                     .id(day.day)
-                                    .frame(width: 200)
+//                                    .frame(width: 200)
                                 }
                             }
                             .onAppear {
