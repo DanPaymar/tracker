@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 struct ForecastViewModel {
     let forecast: Forecast.Daily
@@ -55,7 +55,7 @@ struct ForecastViewModel {
     }
     
     var pop: String {
-        return "💧 \(Self.numberFormatter2.string(for: forecast.pop) ?? "0%")"
+        return  "💧 \(Self.numberFormatter2.string(for: forecast.pop) ?? "0%")"
     }
     
     var clouds: String {
