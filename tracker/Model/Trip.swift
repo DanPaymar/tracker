@@ -13,6 +13,8 @@ import SwiftData
 final class Trip {
     var title: String
     var destination: String
+
+//    var destination: PlaceVM
 //    var tripDate: Date
   
 

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftData
 
 struct ForecastViewModel {
     let forecast: Forecast.Daily
@@ -70,4 +71,6 @@ struct ForecastViewModel {
         let urlString = "https://openweathermap.org/img/wn/\(forecast.weather[0].icon)@2x.png"
         return URL(string: urlString)!
     }
+    
+    
 }

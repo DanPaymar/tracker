@@ -26,6 +26,12 @@
 		B7D3D9DD2C2F2CD8007372CF /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D3D9DC2C2F2CD8007372CF /* Forecast.swift */; };
 		B7D3D9E72C331F7C007372CF /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D3D9E62C331F7C007372CF /* UIApplication+Extension.swift */; };
 		B7D3D9EB2C332594007372CF /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B7D3D9EA2C332594007372CF /* SDWebImageSwiftUI */; };
+		B7FDD6962C388029007731E2 /* AddWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FDD6952C388024007731E2 /* AddWeatherView.swift */; };
+		B7FDD6982C3885AC007731E2 /* locationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FDD6972C3885AC007731E2 /* locationManager.swift */; };
+		B7FDD69A2C3885B9007731E2 /* MKCoordinateRegion+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FDD6992C3885B9007731E2 /* MKCoordinateRegion+Extensions.swift */; };
+		B7FDD69C2C3885BF007731E2 /* SearchResultsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FDD69B2C3885BF007731E2 /* SearchResultsVM.swift */; };
+		B7FDD69E2C388904007731E2 /* PlaceVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FDD69D2C388904007731E2 /* PlaceVM.swift */; };
+		B7FDD6EC2C3C88AB007731E2 /* AddNewTripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FDD6EB2C3C88AB007731E2 /* AddNewTripViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +73,12 @@
 		B7D3D9DA2C2F2CA7007372CF /* ForecastListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastListViewModel.swift; sourceTree = "<group>"; };
 		B7D3D9DC2C2F2CD8007372CF /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 		B7D3D9E62C331F7C007372CF /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		B7FDD6952C388024007731E2 /* AddWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWeatherView.swift; sourceTree = "<group>"; };
+		B7FDD6972C3885AC007731E2 /* locationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationManager.swift; sourceTree = "<group>"; };
+		B7FDD6992C3885B9007731E2 /* MKCoordinateRegion+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKCoordinateRegion+Extensions.swift"; sourceTree = "<group>"; };
+		B7FDD69B2C3885BF007731E2 /* SearchResultsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsVM.swift; sourceTree = "<group>"; };
+		B7FDD69D2C388904007731E2 /* PlaceVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceVM.swift; sourceTree = "<group>"; };
+		B7FDD6EB2C3C88AB007731E2 /* AddNewTripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTripViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -140,6 +152,7 @@
 		B7C6E68C2C224DED00E8860F /* tracker */ = {
 			isa = PBXGroup;
 			children = (
+				B7FDD6972C3885AC007731E2 /* locationManager.swift */,
 				B7C6E68D2C224DED00E8860F /* trackerApp.swift */,
 				B7D3D9DF2C2F2D3C007372CF /* Networking */,
 				B7D3D9E82C331FAA007372CF /* Extensions */,
@@ -192,8 +205,11 @@
 		B7D3D9DE2C2F2D03007372CF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				B7FDD69B2C3885BF007731E2 /* SearchResultsVM.swift */,
 				B7D3D9D82C2F2C8D007372CF /* ForecastViewModel.swift */,
 				B7D3D9DA2C2F2CA7007372CF /* ForecastListViewModel.swift */,
+				B7FDD69D2C388904007731E2 /* PlaceVM.swift */,
+				B7FDD6EB2C3C88AB007731E2 /* AddNewTripViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -213,6 +229,7 @@
 				B7C6E70F2C2B8D0500E8860F /* WeatherModel.swift */,
 				B7C6E70D2C2A022C00E8860F /* WeatherData.swift */,
 				B7D3D9CB2C2F2C16007372CF /* WeatherConditionView.swift */,
+				B7FDD6952C388024007731E2 /* AddWeatherView.swift */,
 			);
 			path = Old;
 			sourceTree = "<group>";
@@ -221,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				B7D3D9E62C331F7C007372CF /* UIApplication+Extension.swift */,
+				B7FDD6992C3885B9007731E2 /* MKCoordinateRegion+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -361,16 +379,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7FDD69E2C388904007731E2 /* PlaceVM.swift in Sources */,
 				B7C6E70E2C2A022C00E8860F /* WeatherData.swift in Sources */,
 				B7C6E70C2C2A01FF00E8860F /* WeatherManager.swift in Sources */,
 				B7C6E6E12C28845400E8860F /* Note.swift in Sources */,
 				B7D3D9D92C2F2C8D007372CF /* ForecastViewModel.swift in Sources */,
 				B7C6E68E2C224DED00E8860F /* trackerApp.swift in Sources */,
+				B7FDD6EC2C3C88AB007731E2 /* AddNewTripViewModel.swift in Sources */,
+				B7FDD6962C388029007731E2 /* AddWeatherView.swift in Sources */,
+				B7FDD69A2C3885B9007731E2 /* MKCoordinateRegion+Extensions.swift in Sources */,
 				B7C6E6E72C2890D700E8860F /* Gear.swift in Sources */,
 				B7C6E6B82C224ED700E8860F /* Trip.swift in Sources */,
 				B7D3D9E72C331F7C007372CF /* UIApplication+Extension.swift in Sources */,
+				B7FDD69C2C3885BF007731E2 /* SearchResultsVM.swift in Sources */,
 				B7D3D9CD2C2F2C16007372CF /* WeatherConditionView.swift in Sources */,
 				B7D3D9DB2C2F2CA7007372CF /* ForecastListViewModel.swift in Sources */,
+				B7FDD6982C3885AC007731E2 /* locationManager.swift in Sources */,
 				B7D3D9DD2C2F2CD8007372CF /* Forecast.swift in Sources */,
 				B7D3D9D72C2F2C62007372CF /* APIService.swift in Sources */,
 				B7C6E7102C2B8D0500E8860F /* WeatherModel.swift in Sources */,
@@ -540,6 +564,8 @@
 				DEVELOPMENT_TEAM = RHMCK4V89Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires your location to provide accurate weather and map information.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app requires your location to provide accurate information.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -569,6 +595,8 @@
 				DEVELOPMENT_TEAM = RHMCK4V89Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires your location to provide accurate weather and map information.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app requires your location to provide accurate information.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

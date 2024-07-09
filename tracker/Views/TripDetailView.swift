@@ -4,9 +4,10 @@
 //
 //  Created by Daniel Paymar on 6/18/24.
 //
-import SDWebImageSwiftUI
-import SwiftUI
 import SwiftData
+import SDWebImageSwiftUI
+import MapKit
+import SwiftUI
 
 struct TripDetailView: View {
     let trip: Trip
@@ -16,21 +17,21 @@ struct TripDetailView: View {
     
     @StateObject var forecastListVM = ForecastListViewModel()
     
+//    @State private var search: String = ""
+    
     @State private var isEditing = false
     
     @State private var title: String = ""
     @State private var destination: String = ""
-    //    @State private var tripDate: Date
     
     @State private var showAddNewNote = false
     @State private var showAddNewGear = false
+    @State private var showAddWeather = false
     
     init(trip: Trip) {
         self.trip = trip
         self._title = State(initialValue: trip.title)
         self._destination = State(initialValue: trip.destination)
-        
-        //        self._tripDate = State(initialValue: trip.tripDate)
     }
     
     var body: some View {
@@ -39,18 +40,16 @@ struct TripDetailView: View {
                 Group {
                     TextField("Title", text: $title)
                     TextField("Destination", text: $destination)
-                    //                    DatePicker(selection: /*@START_MENU_TOKEN@*/.constant(Date())/*@END_MENU_TOKEN@*/, label: { /*@START_MENU_TOKEN@*/Text("Date")/*@END_MENU_TOKEN@*/ })
-                    
                 }
                 
                 Button("Save") {
-                    //                    guard let
                     trip.title = title
                     trip.destination = destination
                     
                     do {
                         try context.save()
-                        
+                        forecastListVM.location = destination
+                        forecastListVM.getWeatherForecast(for: destination)
                     } catch {
                         print(error.localizedDescription)
                     }
@@ -60,62 +59,53 @@ struct TripDetailView: View {
             } else {
                 Text(trip.title)
                 Text(trip.destination)
-                //                Text(trip.tripDate.description)
             }
             
-            Section("\(destination) forecast") {
-                Button {
-                    forecastListVM.getWeatherForecast()
-                } label: {
-                    HStack {
-                        TextField("Your destination", text: $forecastListVM.location)
-                        Image(systemName: "magnifyingglass.circle.fill")
-                    }
-                }
-                
-                if forecastListVM.forecasts.isEmpty {
-                    VStack {
-                        ContentUnavailableView(
-                            "Add a destination to get the weather",
-                            systemImage: "sun.max.trianglebadge.exclamationmark",
-                            description: Text("Add a destination to get the weather")
-                        )
-                    }
-                } else {
-                    ScrollView(.horizontal) {
-                        ScrollViewReader { scrollView in
-                            LazyHStack(spacing: 20) {
-                                ForEach(forecastListVM.forecasts, id: \.day) { day in
-                                    VStack(alignment: .center) {
-                                        Text(day.day)
-                                            .fontWeight(.bold)
-                                        HStack {
-                                            Text(day.high)
-                                            Text(day.low)
+            Section("\(trip.destination) forecast") {
+                VStack(alignment: .leading) {
+                    if trip.destination.isEmpty {
+                        VStack {
+                            ContentUnavailableView(
+                                "Add a destination to get the weather",
+                                systemImage: "sun.max.trianglebadge.exclamationmark",
+                                description: Text("Add a destination to get the weather")
+                            )
+                        }
+                    } else {
+                        ScrollView(.horizontal) {
+                            ScrollViewReader { scrollView in
+                                LazyHStack(spacing: 20) {
+                                    ForEach(forecastListVM.forecasts, id: \.day) { day in
+                                        VStack(alignment: .center) {
+                                            Text(day.day)
+                                                .fontWeight(.bold)
+                                            HStack {
+                                                Text(day.high)
+                                                Text(day.low)
+                                            }
+                                            Text(day.overview)
+                                                .font(.caption)
+                                            WebImage(url: day.weatherIconURL)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 75, height: 75)
+                                            HStack {
+                                                Text(day.clouds)
+                                                Text(day.pop)
+                                            }
+                                            Text(day.humidity)
+                                            
                                         }
-                                        Text(day.overview)
-                                            .font(.caption)
-                                        WebImage(url: day.weatherIconURL)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 75, height: 75)
-                                        HStack {
-                                            Text(day.clouds)
-                                            Text(day.pop)
-                                        }
-                                        Text(day.humidity)
-                                        
+                                        .id(day.day)
+                                        .frame(width: 200)
                                     }
-                                    .id(day.day)
-//                                    .frame(width: 200)
                                 }
-                            }
-                            .onAppear {
-                                scrollView.scrollTo(forecastListVM.forecasts.first?.day, anchor: .center)
+                                .onAppear {
+                                    scrollView.scrollTo(forecastListVM.forecasts.first?.day, anchor: .center)
+                                }
                             }
                         }
                     }
-                    .frame(height: 200)
                 }
             }
             
@@ -184,8 +174,13 @@ struct TripDetailView: View {
             }
         }
         .navigationTitle("Trip Detail")
+        .onAppear {
+            if !trip.destination.isEmpty {
+                forecastListVM.location = trip.destination
+                forecastListVM.getWeatherForecast(for: destination)
+            }
+        }
     }
-    
 }
 
 

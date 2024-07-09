@@ -6,9 +6,9 @@
 //
 
 import CoreLocation
-import Foundation
 import SwiftUI
 import SwiftData
+
 
 
 class ForecastListViewModel: ObservableObject {
@@ -35,34 +35,14 @@ class ForecastListViewModel: ObservableObject {
     
     init() {
         location = storagelocation
-        getWeatherForecast()
+        getWeatherForecast(for: location)
     }
     
-    func getWeatherForecast() {
-        storagelocation = location
-        UIApplication.shared.endEditing()
-        if location == "" {
-            forecasts = []
-        } else {
-            isLoading = true
-            let apiService = APIService.shared
-            CLGeocoder().geocodeAddressString(location) { (placemarks, error) in
+    func getWeatherForecast(for destination: String) {
+            // Use CLGeocoder to get coordinates for the destination
+            let geocoder = CLGeocoder()
+            geocoder.geocodeAddressString(destination) { (placemarks, error) in
                 if let error = error as? CLError {
-                    switch error.code {
-                        
-                    case .locationUnknown, .geocodeFoundNoResult, .geocodeFoundPartialResult:
-                        self.appError = AppError(
-                            errorString: NSLocalizedString("Unable to determine location", comment: "")
-                        )
-                    case .network:
-                        self.appError = AppError(
-                            errorString: NSLocalizedString("No network connection. Please check you are connected to a network and try again.", comment: "")
-                        )
-                    default:
-                        self.appError = AppError(
-                            errorString: error.localizedDescription
-                        )
-                    }
                     self.isLoading = false
                     self.appError = AppError(errorString: error.localizedDescription)
                     print(error.localizedDescription)
@@ -70,6 +50,7 @@ class ForecastListViewModel: ObservableObject {
                 if let lat = placemarks?.first?.location?.coordinate.latitude,
                    let lon = placemarks?.first?.location?.coordinate.longitude {
                     
+                    let apiService = APIService.shared
                     apiService.getJSON(urlString: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&exclude=current,minutely,hourly,alerts&appid=3989ab9921804406367d1e47d782024a",
                                        dateDecodingStrategy: .secondsSince1970) { (result: Result<Forecast,APIService.APIError>) in
                         
@@ -92,4 +73,3 @@ class ForecastListViewModel: ObservableObject {
             }
         }
     }
-}
